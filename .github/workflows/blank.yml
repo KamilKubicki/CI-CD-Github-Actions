@@ -31,3 +31,30 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+  # Test job
+  test:
+    # Runs a set of commands using the runners shell
+    name: Test (PHP ${{ matrix.os }} - ${{ matrix.php-versions }})
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Avoids break if one part of matrix go wrong
+      fail-fast: true
+      # Several env strategies
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-18.04]
+        php-versions: ['7.2', '7.4']
+        exclude:
+          # excludes node 4 on macOS
+          - os: windows-latest
+            php-versions: '7.2'
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Setup PHP
+        run: php -v
+#      - name: Validate composer files
+#          run: composer validate --no-check-all --strict
