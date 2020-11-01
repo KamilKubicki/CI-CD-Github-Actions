@@ -44,7 +44,7 @@ jobs:
       fail-fast: true
       # Several env strategies
       matrix:
-        os: [windows-latest, ubuntu-18.04]
+        os: [ubuntu-18.04]
         php-versions: ['7.2', '7.4']
         exclude:
           # excludes node 4 on macOS
