@@ -38,6 +38,7 @@ jobs:
     name: Test (PHP ${{ matrix.os }} - ${{ matrix.php-versions }})
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
+
     strategy:
       # Avoids break if one part of matrix go wrong
       fail-fast: true
@@ -52,9 +53,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Setup PHP
-        run: php -v
+      # Get dependency images
+      - name: Pull images
+        run: docker-compose pull
+      # Start containers
+      - name: Start services
+        run: docker-compose up --build -d
+#      # Runs a single command using the runners shell
+#      - name: Setup PHP
+#        run: php -v
 #      - name: Validate composer files
 #          run: composer validate --no-check-all --strict
+#      - name: Install Composer dependencies
+#        run: composer install --prefer-dist --no-progress --no-suggest
